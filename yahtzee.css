@@ -1,0 +1,103 @@
+@import url(http://fonts.googleapis.com/css?family=Handlee);
+
+body {
+	background-color: #3B264E;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	font-size: 20px;
+	font-family: 'Handlee', cursive;
+}
+
+body * {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+h1 {
+	text-align: center;
+	font-size: 1000%;
+	margin: 0;
+}
+td:nth-child(1)[disabled] {
+	color: blue;
+	pointer-events: none;
+}
+
+td:first-child {
+	cursor: pointer;
+}
+td:first-child:hover {
+	color: yellow;
+}
+td:first-child:active {
+	color: red;
+}
+
+td {
+	padding: 2px 30px 2px 2px;
+}
+td:last-child {
+	padding-right: 2px;
+}
+
+tr:last-child {
+    border-top: 2px blue solid; /* top border only */
+}
+
+.score-wrapper, .rollsLeft-wrapper {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.dice {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.die {
+	border-radius: 10px;
+	background-color: white;
+	color: purple;
+	text-align: center;
+	line-height: 100px;
+}
+.die:active,
+.die.selected {
+	box-shadow: 0 0 0px 3px magenta;
+}
+
+span[data-clicked] {
+	box-shadow: 0 0 0px 3px magenta;
+}
+
+.die,
+.roll-btn,
+.newgame-btn {
+	width: 100px;
+	height: 100px;
+}
+
+.die:not(:last-child) {
+	margin-right: 10px;
+}
+
+.btn-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.roll-btn,
+.newgame-btn {
+	border-radius: 50px;
+	border: none;
+	background-color: white;
+	font-size: 140%;
+	font-family: 'Handlee', cursive;
+}

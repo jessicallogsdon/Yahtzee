@@ -4,7 +4,7 @@ app.run(function($rootScope){
 	var rollCount = 0
 	var rollsLeft = 2
 
-	var dice = [
+	$rootScope.dice = [
  		{
  			name: 'die 1',
  			value: Math.floor((Math.random() * 6) + 1),
@@ -180,7 +180,7 @@ app.run(function($rootScope){
 				updateTotal()
 				resetAfterScore()
 
-				if(IsGameFinished) $('.game-over').visible = true
+				if(IsGameFinished) $rootScope.gameOver = true
 			})
 			
 			return $('<tr class="score-label '+d.name+'"></tr>').append(label, score, possible)

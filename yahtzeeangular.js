@@ -1,10 +1,11 @@
 var app = angular.module('yahtzeeApp', []);
 
-app.run(function($rootScope){
-	var rollCount = 0
-	var rollsLeft = 2
+app.controller('YahtzeeController', ['$scope', function($scope) {
 
-	$rootScope.dice = [
+	var rollCount = 0
+	$scope.rollsLeft = 2
+
+	$scope.dice = [
  		{
  			name: 'die 1',
  			value: Math.floor((Math.random() * 6) + 1),
@@ -32,13 +33,13 @@ app.run(function($rootScope){
  		}
 	];
 
-	$rootScope.data = [
+	$scope.scoreList = [
 		{
 			name: 'ones',
 			label: 'Ones',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 1 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -50,7 +51,7 @@ app.run(function($rootScope){
 			label: 'Twos',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 2 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -62,7 +63,7 @@ app.run(function($rootScope){
 			label: 'Threes',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 3 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -74,7 +75,7 @@ app.run(function($rootScope){
 			label: 'Fours',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 4 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -86,7 +87,7 @@ app.run(function($rootScope){
 			label: 'Fives',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 5 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -98,7 +99,7 @@ app.run(function($rootScope){
 			label: 'Sixes',
 			score: function(dice) {
 				var numbers = dice.filter(function(d) { return d == 6 })
-				if (numbers.length > 0) 
+				if (numbers.length > 0)
 					return numbers.reduce(function(a,b) { return a+b })
 				else
 					return 0
@@ -163,113 +164,113 @@ app.run(function($rootScope){
 				return dice.filter(function(d) { return d == dice[0] }).length == 5 ? 50 : 0
 			},
 			clicked: false
-		}	
+		}
 	]
 
 	// data-driven table score generation
-	$.each(data, function(i,d) {
-		$('.scores').append(function() {
-			var score = $('<td class="score"></td>')
-			var possible = $('<td class="possible-score"></td>')
-			var label = $('<td></td>').text(d.label).click(function() {
-				score.text(d.score(getDiceValues()))
-				d.clicked = true
-				
-				$(this).attr('disabled','')
+	// $.each(data, function(i,d) {
+	// 	$('.scores').append(function() {
+	// 		var score = $('<td class="score"></td>')
+	// 		var possible = $('<td class="possible-score"></td>')
+	// 		var label = $('<td></td>').text(d.label).click(function() {
+	// 			score.text(d.score(getDiceValues()))
+	// 			d.clicked = true
+	//
+	// 			$(this).attr('disabled','')
+	//
+	// 			updateTotal()
+	// 			resetAfterScore()
+	//
+	// 			if(IsGameFinished) $scope.gameOver = true
+	// 		})
+	//
+	// 		return $('<tr class="score-label '+d.name+'"></tr>').append(label, score, possible)
+	// 	})
+	// })
+	//
+	// // add total score row to table
+	// $('.scores').append(function() {
+	// 	var score = $('<td class="total">0</td>')
+	// 	var label = $('<td></td>').text("Total")
+	// 	return $('<tr class="total-label"></tr>').append(label, score)
+	// })
 
-				updateTotal()
-				resetAfterScore()
+	// $.each(dice, function(i,d) {
+	// 	$('.dice').append(function() {
+	// 		return $('<span class="die"></span>').text(d.value).click(function() {
+	// 			d.isHeld = !d.isHeld
+	// 			if (d.isHeld)
+	// 				$(this).attr('data-clicked','')
+	// 			else
+	// 				$(this).removeAttr('data-clicked')
+	// 		})
+	// 	})
+	// })
 
-				if(IsGameFinished) $rootScope.gameOver = true
-			})
-			
-			return $('<tr class="score-label '+d.name+'"></tr>').append(label, score, possible)
-		})
-	})
-
-	// add total score row to table
-	$('.scores').append(function() {
-		var score = $('<td class="total">0</td>')
-		var label = $('<td></td>').text("Total")
-		return $('<tr class="total-label"></tr>').append(label, score)
-	})
-
-	$.each(dice, function(i,d) {
-		$('.dice').append(function() {
-			return $('<span class="die"></span>').text(d.value).click(function() {
-				d.isHeld = !d.isHeld
-				if (d.isHeld) 
-					$(this).attr('data-clicked','')
-				else
-					$(this).removeAttr('data-clicked')
-			})
-		})
-	})
-
-	$('.roll-btn').click(function() {
+	$scope.rollClick = function() {
 		roll()
 		rollCount++
 		rollsLeft--
-		$rootScope.rollsLeft = rollsLeft
+		$scope.rollsLeft = rollsLeft
 		var input = this
-		if (rollCount == 2) $(this).prop('disabled', true)
-	})
+		if (rollCount == 2) $scope.rollButtonDisabled = true
+	}
 
-	$('.newgame-btn').click(function() {
+	$scope.newGame = function() {
 		//resets every value for a new game
 		for (var i = 0; i < data.length; i++) {
-			$rootScope.data[i].score = 0
+			$scope.data[i].score = 0
 			$('td').removeAttr('disabled')
 
 		}
-		updateTotal()
+		$scope.total = 0;
 		roll()
-		$rootScope.rollButton.prop('disabled', false)
+		$scope.rollButtonDisabled = false
 		$('span').removeAttr('data-clicked')
-		$rootScope.gameOver = true;
-	})
+		$scope.gameOver = true;
+	}
 
-	var getDiceValues = function() { 
-		return [$rootScope.dice[0].value,dice[1].value,$rootScope.dice[2].value,$rootScope.dice[3].value,$rootScope.dice[4].value] 
-	}  
+	var getDiceValues = function() {
+		return [$scope.dice[0].value,$scope.dice[1].value,$scope.dice[2].value,$scope.dice[3].value,$scope.dice[4].value]
+	}
 
 	var updatePossible = function() {
-		for(var i = 0; i < $rootScope.data.length; i++) {
-			if (!$rootScope.data[i].clicked) {
-				$rootScope.data[i].possible = $rootScope.data[i].score(getDiceValues())
+		for(var i = 0; i < $scope.data.length; i++) {
+			if (!$scope.data[i].clicked) {
+				$scope.data[i].possible = $scope.data[i].score(getDiceValues())
 			}
 			else {
-				$rootScope.data[i].possible = 0
+				$scope.data[i].possible = 0
 			}
 		}
 	}
 
 	var roll = function() {
-		for(var i = 0; i < $rootScope.dice.length; i++)
-			if (!$rootScope.dice[i].isHeld) {
-				$rootScope.dice[i].value = Math.floor((Math.random() * 6) + 1)
+		for(var i = 0; i < $scope.dice.length; i++)
+			if (!$scope.dice[i].isHeld) {
+				$scope.dice[i].value = Math.floor((Math.random() * 6) + 1)
 			}
 		updatePossible()
 	}
 
-	$rootScope.resetAfterScore = function() {
+	$scope.resetAfterScore = function() {
 		rollCount = 0
 		rollsLeft = 2
-		
-		for(var i = 0; i < $rootScope.dice.length; i++)
-			if($rootScope.dice[i].isHeld) $rootScope.dice[i].isHeld = false
-		
-		$rootScope.rollsLeft.text(rollsLeft)
-		$('span').removeAttr('data-clicked') 
-		$rootScope.rollButton.prop('disabled', false)
 
-		roll()
+		for(var i = 0; i < $scope.dice.length; i++)
+			if($scope.dice[i].isHeld) $scope.dice[i].isHeld = false
+
+		$scope.rollsLeft.text(rollsLeft)
+		$('span').removeAttr('data-clicked')
+		$scope.rollButton.prop('disabled', false)
+
+		roll();
 	}
 
-
-	var updateTotal = function() {
-		var total = $.makeArray($('td.score').map(function(){return Number(this.textContent)})).reduce(function(a,b){return a+b})
-		$rootScope.total = total;
+	$scope.setScore = function(index) {
+		$scope.scoreList[index].scoreValue = $scope.scoreList[index].score(getDiceValues());
+		$scope.total += $scope.score[index].scoreValue;
+		roll();
 	}
 
 	// returns true if elements of data are increasing by 1, else returns false
@@ -305,7 +306,4 @@ app.run(function($rootScope){
 			}
 		return isFinished
 	}
-});
-
-
-
+}]);

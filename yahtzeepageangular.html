@@ -1,29 +1,39 @@
-<html ng-app="yahtzeeApp">
+<html ng-app="yahtzeeApp"  ng-controller="YahtzeeController">
     <head>
         <link href='yahtzee.css' rel='stylesheet' type='text/css'>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src='yahtzeeangular.js'></script>
     </head>
     <body>
         <h1>Yahtzee!</h1>
         <div ng-class='rollsLeft-wrapper'>
             <span ng-class='roll-label'>Rolls left: </span>
-            <span ng-class='rolls-left'>2</span>
+            <span ng-class='rolls-left'>{{rollsLeft}}</span>
         </div>
         <div ng-class='score-wrapper'>
-            <table ng-class='scores'></table>
+            <table ng-class='scores'>
+                <tr ng-repeat='score in scoreList' ng-disabled='score.clicked'  ng-click='setScore($index)'>
+                    <a href="#"><td>{{score.label}}</td>
+                    <td>{{score.scoreValue}}</td>
+                    <td>{{score.possible}}</td></a>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>{{total}}</td>
+                </tr>
+            </table>
+        </div>
+        <div ng-class='dice' >
+            <span ng-repeat='die in dice'>
+                {{die.value}}
+            </span>
         </div>
 
-        <div ng-class='dice' >
-            <div ng-repeat='die in dice'>
-                {{die.value}}
-            </div>
-        </div>
-        
-        <div ng-class='btn-wrapper'><button ng-class='roll-btn' ng-click='roll()'>Roll!</button> </div>
+        <div ng-class='btn-wrapper'><button ng-class='roll-btn' ng-click='rollClick()'>Roll!</button> </div>
 
         <br>
         <div ng-class='btn-wrapper'><button ng-class='newgame-btn' ng-click='newgame()'>New Game</button></div>
         <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-        <script src='yahtzeejs.js'></script>
+
     </body>
 </html>

@@ -3,6 +3,7 @@
         <link href='yahtzee.css' rel='stylesheet' type='text/css'>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
         <script src='yahtzeeangular.js'></script>
+        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     </head>
     <body>
         <h1>Yahtzee!</h1>
@@ -24,16 +25,14 @@
             </table>
         </div>
         <div ng-class='dice' >
-            <span ng-repeat='die in dice'>
+            <span class='die' ng-repeat='die in dice' ng-click='die.isHeld = !die.isHeld'>
                 {{die.value}}
             </span>
         </div>
 
-        <div ng-class='btn-wrapper'><button ng-class='roll-btn' ng-click='rollClick()'>Roll!</button> </div>
+        <div ng-class='btn-wrapper'><button ng-class='roll-btn' ng-click='rollClick()' ng-disabled="rollButtonDisabled">Roll!</button> </div>
 
         <br>
-        <div ng-class='btn-wrapper'><button ng-class='newgame-btn' ng-click='newgame()'>New Game</button></div>
-        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-
+        <div ng-class='btn-wrapper'><button ng-class='newgame-btn' ng-click='newGame()'>New Game</button></div>
     </body>
 </html>

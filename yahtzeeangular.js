@@ -4,6 +4,7 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 
 	var rollCount = 0
 	$scope.rollsLeft = 2
+	$scope.total = 0;
 
 	$scope.dice = [
  		{
@@ -208,25 +209,21 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 	// })
 
 	$scope.rollClick = function() {
-		roll()
-		rollCount++
-		rollsLeft--
-		$scope.rollsLeft = rollsLeft
-		var input = this
-		if (rollCount == 2) $scope.rollButtonDisabled = true
+		roll();
+		rollCount++;
+		$scope.rollsLeft--;
+		if (rollCount == 2) $scope.rollButtonDisabled = true;
 	}
 
 	$scope.newGame = function() {
 		//resets every value for a new game
-		for (var i = 0; i < data.length; i++) {
-			$scope.data[i].score = 0
-			$('td').removeAttr('disabled')
-
+		for (var i = 0; i < $scope.scoreList.length; i++) {
+			$scope.scoreList[i].scoreValue = 0
+			$scope.clicked = false;
 		}
 		$scope.total = 0;
 		roll()
 		$scope.rollButtonDisabled = false
-		$('span').removeAttr('data-clicked')
 		$scope.gameOver = true;
 	}
 
@@ -235,12 +232,12 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 	}
 
 	var updatePossible = function() {
-		for(var i = 0; i < $scope.data.length; i++) {
-			if (!$scope.data[i].clicked) {
-				$scope.data[i].possible = $scope.data[i].score(getDiceValues())
+		for(var i = 0; i < $scope.scoreList.length; i++) {
+			if (!$scope.scoreList[i].clicked) {
+				$scope.scoreList[i].possible = $scope.scoreList[i].score(getDiceValues())
 			}
 			else {
-				$scope.data[i].possible = 0
+				$scope.scoreList[i].possible = 0
 			}
 		}
 	}
@@ -255,13 +252,11 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 
 	$scope.resetAfterScore = function() {
 		rollCount = 0
-		rollsLeft = 2
 
 		for(var i = 0; i < $scope.dice.length; i++)
 			if($scope.dice[i].isHeld) $scope.dice[i].isHeld = false
 
-		$scope.rollsLeft.text(rollsLeft)
-		$('span').removeAttr('data-clicked')
+		$scope.rollsLeft = 2;
 		$scope.rollButton.prop('disabled', false)
 
 		roll();
@@ -269,7 +264,8 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 
 	$scope.setScore = function(index) {
 		$scope.scoreList[index].scoreValue = $scope.scoreList[index].score(getDiceValues());
-		$scope.total += $scope.score[index].scoreValue;
+		$scope.total += $scope.scoreList[index].scoreValue;
+		$scope.rollButtonDisabled = false;
 		roll();
 	}
 

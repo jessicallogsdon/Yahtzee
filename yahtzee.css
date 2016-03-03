@@ -67,6 +67,8 @@ tr:last-child {
 	color: purple;
 	text-align: center;
 	line-height: 100px;
+	border: 1px solid black;
+	padding: 15px;
 }
 .die:active,
 .die.selected {

@@ -2,9 +2,10 @@ var app = angular.module('yahtzeeApp', []);
 
 app.controller('YahtzeeController', ['$scope', function($scope) {
 
-	var rollCount = 0
-	$scope.rollsLeft = 2
+	var rollCount = 0;
+	$scope.rollsLeft = 2;
 	$scope.total = 0;
+	$scope.gameOver = false;
 
 	$scope.dice = [
  		{
@@ -224,7 +225,7 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 		$scope.total = 0;
 		roll()
 		$scope.rollButtonDisabled = false
-		$scope.gameOver = true;
+		$scope.gameOver = false;
 	}
 
 	var getDiceValues = function() {
@@ -250,14 +251,13 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 		updatePossible()
 	}
 
-	$scope.resetAfterScore = function() {
-		rollCount = 0
+	var resetAfterScore = function() {
+		rollCount = 0;
 
 		for(var i = 0; i < $scope.dice.length; i++)
-			if($scope.dice[i].isHeld) $scope.dice[i].isHeld = false
+			$scope.dice[i].isHeld = false;
 
 		$scope.rollsLeft = 2;
-		$scope.rollButton.prop('disabled', false)
 
 		roll();
 	}
@@ -265,16 +265,24 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 	$scope.setScore = function(index) {
 		$scope.scoreList[index].scoreValue = $scope.scoreList[index].score(getDiceValues());
 		$scope.total += $scope.scoreList[index].scoreValue;
-		$scope.rollButtonDisabled = false;
-		roll();
+		$scope.scoreList[index].clicked = true;
+
+		if (isGameFinished()) {
+			$scope.gameOver = true;
+			$scope.rollButtonDisabled = true;
+		} else {
+			resetAfterScore();
+			$scope.rollButtonDisabled = false;
+		}
 	}
 
 	// returns true if elements of data are increasing by 1, else returns false
 	var isIncreasing = function(data) {
-		var valid = true
+		var valid = true;
 		for(var i = 0; i < data.length-1; i++)
-			if (data[i+1] != data[i]+1) valid = false
-		return valid
+			if (data[i+1] != data[i]+1)
+				valid = false;
+		return valid;
 	}
 
 	// returns true if any number is repeated "number" or more times, else returns false
@@ -282,24 +290,25 @@ app.controller('YahtzeeController', ['$scope', function($scope) {
 	var repeats = function(data, number, exactly) {
 		var repeatCount = {}
 		data.forEach(function(d) {
-			repeatCount[d] = (repeatCount[d] || 0) + 1
+			repeatCount[d] = (repeatCount[d] || 0) + 1;
 		})
 		for (var i in repeatCount) {
-			if (exactly && repeatCount[i] == number) return true
-			else if (!exactly && repeatCount[i] >= number) return true
+			if (exactly && repeatCount[i] == number) return true;
+			else if (!exactly && repeatCount[i] >= number) return true;
 		}
-		return false
+		return false;
 	}
 
 	// checks to see if all the different scores have been select
 	// if so returns true, else returns false
-	var IsGameFinished = function() {
+	var isGameFinished = function() {
 		var isFinished = true
-		for (var i = 0; i < data.length; i++)
-			if (!data[i].clicked) {
-				isFinished = false
-				return isFinished
+		for (var i = 0; i < $scope.scoreList.length; i++)
+			if (!$scope.scoreList[i].clicked) {
+				isFinished = false;
+				return isFinished;
 			}
-		return isFinished
+		return isFinished;
 	}
+	$scope.newGame();
 }]);

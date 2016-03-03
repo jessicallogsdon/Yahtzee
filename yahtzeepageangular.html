@@ -1,22 +1,28 @@
 <html ng-app="yahtzeeApp"  ng-controller="YahtzeeController">
     <head>
         <link href='yahtzee.css' rel='stylesheet' type='text/css'>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src='yahtzeeangular.js'></script>
-        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     </head>
     <body>
         <h1>Yahtzee!</h1>
+        <h2 ng-show='gameOver'>Game Over!!!! You scored: {{total}}</h2>
         <div ng-class='rollsLeft-wrapper'>
             <span ng-class='roll-label'>Rolls left: </span>
             <span ng-class='rolls-left'>{{rollsLeft}}</span>
         </div>
         <div ng-class='score-wrapper'>
             <table ng-class='scores'>
+                <tr>
+                  <td>Score Type</td>
+                  <td>Score</td>
+                  <td>Possible Score</td>
+                </tr>
                 <tr ng-repeat='score in scoreList' ng-disabled='score.clicked'  ng-click='setScore($index)'>
-                    <a href="#"><td>{{score.label}}</td>
+                    <td>{{score.label}}</td>
                     <td>{{score.scoreValue}}</td>
-                    <td>{{score.possible}}</td></a>
+                    <td ng-hide='score.clicked'>{{score.possible}}</td>
                 </tr>
                 <tr>
                     <td>Total</td>
@@ -25,7 +31,7 @@
             </table>
         </div>
         <div ng-class='dice' >
-            <span class='die' ng-repeat='die in dice' ng-click='die.isHeld = !die.isHeld'>
+            <span class='die' ng-repeat='die in dice' ng-click='die.isHeld = !die.isHeld' ng-class='{held: die.isHeld}'>
                 {{die.value}}
             </span>
         </div>

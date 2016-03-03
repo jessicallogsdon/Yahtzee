@@ -67,15 +67,14 @@ tr:last-child {
 	color: purple;
 	text-align: center;
 	line-height: 100px;
-	border: 1px solid black;
-	padding: 15px;
+	padding: 30px;
 }
 .die:active,
 .die.selected {
 	box-shadow: 0 0 0px 3px magenta;
 }
 
-span[data-clicked] {
+.held {
 	box-shadow: 0 0 0px 3px magenta;
 }
 

@@ -46,7 +46,7 @@ td:last-child {
 }
 
 tr:last-child {
-    border-top: 2px blue solid; /* top border only */
+    border-top: 2px solid white; /* top border only */
 }
 
 .score-wrapper, .rollsLeft-wrapper {
@@ -78,11 +78,21 @@ tr:last-child {
 	box-shadow: 0 0 0px 3px magenta;
 }
 
-.die,
-.roll-btn,
+.button {
+    background-color: white;
+    color: purple;
+    float: right;
+    padding: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+		width: 150px;
+    height: 40px;
+		text-align: center;
+}
+
 .newgame-btn {
-	width: 100px;
-	height: 100px;
+		margin-top: 10px;
 }
 
 .die:not(:last-child) {
@@ -96,9 +106,6 @@ tr:last-child {
 
 .roll-btn,
 .newgame-btn {
-	border-radius: 50px;
-	border: none;
-	background-color: white;
 	font-size: 140%;
 	font-family: 'Handlee', cursive;
 }
